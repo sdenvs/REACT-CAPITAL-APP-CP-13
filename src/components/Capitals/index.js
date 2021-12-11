@@ -31,17 +31,28 @@ const countryAndCapitalsList = [
 
 // Write your code here
 class Capitals extends Component {
-  state = {clicked: false}
+  state = {country: countryAndCapitalsList[0].country}
 
   changed = () => {
-    this.setState({clicked: true})
+    const idChanged = document.getElementById('capitals').value
+    const changedObj = countryAndCapitalsList.filter(
+      eachItem => eachItem.id === idChanged,
+    )
+    this.setState({country: changedObj[0].country})
+  }
+
+  OptionsTag = props => {
+    const {details} = props
+    const {capitalDisplayText, id} = details
+    return <option value={id}>{capitalDisplayText}</option>
   }
 
   render() {
+    const {country} = this.state
     return (
       <div className="bgContainer">
         <div className="card">
-          <h1>Countries and Capitals</h1>
+          <h1>Countries And Capitals</h1>
           <div>
             <select
               className="selectEl"
@@ -50,14 +61,12 @@ class Capitals extends Component {
               id="capitals"
             >
               {countryAndCapitalsList.map(eachItem => (
-                <option value={eachItem.country}>
-                  {eachItem.capitalDisplayText}
-                </option>
+                <this.OptionsTag key={eachItem.id} details={eachItem} />
               ))}
             </select>
-            <span>is capital of which country?</span>
+            <p>is capital of which country?</p>
           </div>
-          <h1>{document.getElementById('capitals').value}</h1>
+          <h1>{country}</h1>
         </div>
       </div>
     )
